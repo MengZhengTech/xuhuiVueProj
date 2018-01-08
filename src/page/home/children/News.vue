@@ -14,10 +14,10 @@
         <popup height="100%" v-model="showNewsDetail">
             <x-header :left-options="{showBack:   false}" style="width:100%;position:absolute;left:0;top:0;z-index:100;">
                 {{curNewsTitle}}
-                <a slot="right" href="javascript:;" @click="closeNewsDetail"><i class="fa fa-close"></i></a>
+                <a slot="right" href="javascript:;" @click="closeNewsDetail"><i class="fs18 fa fa-close"></i></a>
             </x-header>
-            <BodyContent :showBottomPadding="false" style="padding:0 10px;background-color: #ddd;">
-                <div slot="content" v-html="newsDetailHTML">
+            <BodyContent :showBottomPadding="false" style="padding:0 10px;background-color: #fff;">
+                <div slot="content" v-html="newsDetailHTML" style="overflow: hidden;background-color:#fff;">
                 </div>
             </BodyContent>
         </popup>
@@ -47,13 +47,12 @@ export default {
             });
             axios.get(apiConfig.companyServer+apiConfig.allNewsList)
                 .then(res=>{
-                    console.log(res);
                     this.newsList = res.data.appNewsList;
                     this.$vux.loading.hide();
                 }).catch(err=>{
                     console.log(err);
                     this.$vux.loading.hide();
-                })
+                });
         },
         getNewsDetail:function(item){
             const url = apiConfig.companyServer + apiConfig.newsDetailData + '?newsId=' + item.newsId + '&r=' + Math.random();
@@ -65,12 +64,12 @@ export default {
             axios.get(url)
                 .then(res=>{
                     let w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                    let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-                    console.log(res);
+
                     this.newsDetailHTML = res.data.content.replace(/<img.+?src=\"(.+?)\".+?>/g, function ($1, str) {
-                      return '<img src="' + str + '" width="' + (w - 20) + '">';
+                      return '<img src="' + str + '" style="width:' + (w - 20) + 'px;">';
                     }).replace(/960px/g, (w - 20) + 'px').replace(/682px/g,(w - 50) + 'px')
-                      .replace(/818px/g, (w - 135) + 'px;display:inline-block');
+                      .replace(/818px/g, (w - 135) + 'px;display:inline-block')
+                      .replace(/text-indent/g, '_none').replace(/style="/g,'style="max-width:'+ (w - 20) + 'px;');
                     this.$vux.loading.hide();
                 }).catch(err=>{
                     console.log(err)

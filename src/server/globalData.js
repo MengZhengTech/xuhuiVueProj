@@ -5,6 +5,10 @@
 export default {
     isWebView: false,  // 是否当着站点载入
     isLogin: false,
+    screen:{
+        w: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        h: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    },
     user:{
         //houbo
         // guid:"582b063a5e492108dcb26339",

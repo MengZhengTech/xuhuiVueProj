@@ -16,7 +16,7 @@
                     <div class="w100p">
                         <grid :cols="3" >
                             <grid-item class="p-attachItem" v-for="(img,i) in  item.appFileList" :key="i">
-                                <img @click="show(i)" class="p-previewer-img" :src="img.thumbPicPath"
+                                <img @click="show(img)" class="p-previewer-img" :src="img.thumbPicPath"
                                      alt="#" :onerror="defaultAvatar" width="100" style="height:100%;width: 100%;">
                             </grid-item>
                         </grid>
@@ -43,8 +43,11 @@ export default {
             defaultAvatar: 'this.src="' + require('../../../assets/images/projLogo/default.png') + '"',
             defaultSwiper: 'this.src="' + require('../../../assets/images/projLogo/noPic.png') + '"',
             projBannerAry: [], // 项目详情页轮播图
+            imgIndex: 1, // 图片计数
+            count: 0,
             abstractAry: [], // 项目简介
             attachList: [], // 实景图等
+            imgList: [],
             options: {
                 getThumbBoundsFn (index) {
                     // find thumbnail element
@@ -64,11 +67,12 @@ export default {
     },
     methods:{
         getPreview:function(list){
-            const previewList = JSON.parse(JSON.stringify(list).replace(/thumbPicPath/g,'src').replace(/_m./g,'_hmsl.'));
+            const previewList = JSON.parse(JSON.stringify(this.imgList).replace(/thumbPicPath/g,'src').replace(/_m./g,'_hmsl.'));
             return previewList;
         },
+
         show:function(index) {
-            this.$refs.previewer[0].show(index)
+            this.$refs.previewer[0].show(index.count)
         },
         fetchData(){
             this.$vux.loading.show({
@@ -83,7 +87,6 @@ export default {
                 this.projBannerAry = res.data.imgList;
                 this.$vux.loading.hide();
             }).catch(err=>{
-                console.log(err);
                 this.$vux.loading.hide();
             });
             // 获取项目简介
@@ -93,6 +96,13 @@ export default {
             ).then(res => {
                 this.abstractAry = res.data.data;
                 this.attachList = res.data.appFileList;
+                let count = 0;
+                this.attachList.forEach((item)=>{
+                    item.appFileList.forEach((item2)=>{
+                        item2.count=count++;
+                    });
+                    this.imgList = this.imgList.concat(item.appFileList);
+                });
                 this.$vux.loading.hide();
             }).catch(err=>{
                 console.log(err);

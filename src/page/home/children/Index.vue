@@ -35,10 +35,10 @@
         <popup height="100%" v-model="showNewsDetail">
             <x-header :left-options="{showBack: false}" style="width:100%;position:absolute;left:0;top:0;z-index:100;">
                 {{curNewsTitle}}
-                <a slot="right" href="javascript:;" @click="closeNewsDetail"><i class="fa fa-close"></i></a>
+                <a slot="right" href="javascript:;" @click="closeNewsDetail"><i class="fs18 fa fa-close"></i></a>
             </x-header>
-            <BodyContent :showBottomPadding="false" style="padding:0 10px;background-color: #ddd;">
-                <div slot="content" v-html="newsDetailHTML">
+            <BodyContent :showBottomPadding="false" style="padding:0 10px;background-color: #fff;">
+                <div slot="content" v-html="newsDetailHTML" style="overflow: hidden;background-color:#fff;">
                 </div>
             </BodyContent>
         </popup>
@@ -54,43 +54,43 @@
   import axios from 'axios';
   export default {
       data(){
-        return {
-          homeBannerAry: [], // 首页轮播图
-          appNewsList: [], // 首页新闻列表
-          appEmpList: [], // 首页新人展示
-          loading: false, // 是否处于加载中
-          defaultNewsImg: 'this.src="' + require('../../../assets/images/avatar/BatMan.png') + '"',
-          defaultSwiper: 'this.src="' + require('../../../assets/images/projLogo/noPic.png') + '"',
-          type: '1',
-          showNewsDetail: false,
-          newsDetailHTML: '',
-          curNewsTitle: '', //当前新闻标题
-          newsList: [],
-          companySys:[
-            { name: '项目管理', eName: 'PROJECT', icon: 'fa-list-ul', isActive: false },
-            { name: '制度流程体系', eName: 'SYSTEM', icon: 'fa-file-text-o', isActive: false },
-            { name: '专业标准体系', eName: 'PROFESSION', icon: 'fa-star-o', isActive: false },
-            { name: '产品线体系', eName: 'PRODUCT', icon: 'fa-cogs', isActive: false },
-            { name: '产品成本体系', eName: 'COST', icon: 'fa-database', isActive: false },
-            { name: '人才管理体系', eName: 'TALENT', icon: 'fa-users', isActive: false },
-            { name: '供应商管理', eName: 'SUPPLIER', icon: 'fa-link', isActive: true,link:{name:'Suppliers'} },
-            { name: '设计论剑', eName: 'DESIGN', icon: 'fa-folder-o', isActive: false },
-            { name: '地区风采', eName: 'STYLE', icon: 'fa-pencil-square-o', isActive: false }
-          ]
-        }
+          return {
+              homeBannerAry: [], // 首页轮播图
+              appNewsList: [], // 首页新闻列表
+              appEmpList: [], // 首页新人展示
+              loading: false, // 是否处于加载中
+              defaultNewsImg: 'this.src="' + require('../../../assets/images/avatar/BatMan.png') + '"',
+              defaultSwiper: 'this.src="' + require('../../../assets/images/projLogo/noPic.png') + '"',
+              type: '1',
+              showNewsDetail: false,
+              newsDetailHTML: '',
+              curNewsTitle: '', //当前新闻标题
+              newsList: [],
+              companySys:[
+                  { name: '项目管理', eName: 'PROJECT', icon: 'fa-list-ul', isActive: false },
+                  { name: '制度流程体系', eName: 'SYSTEM', icon: 'fa-file-text-o', isActive: false },
+                  { name: '专业标准体系', eName: 'PROFESSION', icon: 'fa-star-o', isActive: false },
+                  { name: '产品线体系', eName: 'PRODUCT', icon: 'fa-cogs', isActive: false },
+                  { name: '产品成本体系', eName: 'COST', icon: 'fa-database', isActive: false },
+                  { name: '人才管理体系', eName: 'TALENT', icon: 'fa-users', isActive: false },
+                  { name: '供应商管理', eName: 'SUPPLIER', icon: 'fa-link', isActive: true, link: { name:'Suppliers'} },
+                  { name: '设计论剑', eName: 'DESIGN', icon: 'fa-folder-o', isActive: false },
+                  { name: '地区风采', eName: 'STYLE', icon: 'fa-pencil-square-o', isActive: false }
+              ]
+          }
       },
       components:{
-        Swiper, SwiperItem,
-        Flexbox, FlexboxItem,
-        Panel, Cell, Grid, GridItem, GroupTitle,
-        BodyContent,Popup,XHeader,
+          Swiper, SwiperItem,
+          Flexbox, FlexboxItem,
+          Panel, Cell, Grid, GridItem, GroupTitle,
+          BodyContent,Popup,XHeader,
       },
       computed: {
-        filterEmp: function () {
-          return this.appEmpList.filter((item,index) => {
-            return index <= 2;
-          });
-        }
+          filterEmp: function () {
+              return this.appEmpList.filter((item,index) => {
+                  return index <= 2;
+              });
+          }
       },
       methods:{
           onImgError:function(){},
@@ -132,16 +132,16 @@
               this.showNewsDetail = true;
               this.curNewsTitle = item.title;
               this.$vux.loading.show({
-                text: '加载中'
+                  text: '加载中'
               });
               axios.get(url)
               .then(res=>{
                   let w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                  let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
                   this.newsDetailHTML = res.data.content.replace(/<img.+?src=\"(.+?)\".+?>/g, function ($1, str) {
-                      return '<img src="' + str + '" width="' + (w - 20) + '">';
+                      return '<img src="' + str + '" style="width:' + (w - 20) + 'px;">';
                   }).replace(/960px/g, (w - 20) + 'px').replace(/682px/g,(w - 50) + 'px')
-                    .replace(/818px/g, (w - 135) + 'px;display:inline-block');
+                    .replace(/818px/g, (w - 135) + 'px;display:inline-block')
+                    .replace(/text-indent/g, '_none').replace(/style="/g,'style="max-width:'+ (w - 20) + 'px;');
                   this.$vux.loading.hide();
               }).catch(err=>{
                   console.log(err)

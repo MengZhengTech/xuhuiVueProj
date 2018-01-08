@@ -2,13 +2,13 @@
 * Created by Administrator on 2017/11/13.
 */
 <template>
-    <div class="fullScreen">
+    <div class="fullScreen bgw">
         <HeaderBar title="登录" :showBackBtn="false"></HeaderBar>
-        <BodyContent :showBottomPadding="false" style="background-color: #ffffff;">
+        <BodyContent :showBottomPadding="false" class="bgw">
             <div slot='content'>
                 <!-- logo -->
                 <div class="logo">
-                  <img src="../assets/images/projLogo/xh.jpg" width="50%"/>
+                    <img src="../assets/images/projLogo/xh.jpg" width="50%"/>
                 </div>
                 <!-- userName & Password -->
                 <div>
@@ -21,7 +21,7 @@
                               :disabled="canLogin" action-type="button"
                               @click.native.stop.prevent="beLogin"
                     >
-                      登录
+                        登录
                     </x-button>
                 </div>
             </div>
@@ -86,16 +86,17 @@
     }
 </script>
 <style>
-    #vux_view_box_body{
-      background-color: #FFFFFF;
-    }
     .logo{
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 40px;
+      background-color: #FFFFFF;
     }
     .p-submitBtn{
       padding: 20px;
+    }
+    .bgw #vux_view_box_body{
+        background-color: #FFFFFF!important;
     }
 </style>

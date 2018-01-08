@@ -180,8 +180,6 @@ export default {
             this.showPopup = true;
             this.curPopupTitle = item.name;
             this.curTableUrl = apiConfig.webViewServer + decodeURIComponent(item.url) + '&uid=' + globalData.user.guid;
-
-            console.log(this.curTableUrl);
         },
         toggleDialog(){
             this.showPopup = false;

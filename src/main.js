@@ -30,7 +30,6 @@ Vue.config.productionTip = false;
 /* eslint-disable no-new */
 window.addEventListener('offline', function(e) {
     console.log('offline');
-    alert(this.$route);
     // 记录断网当时的路由
 });
 window.addEventListener('online', function(e) {
